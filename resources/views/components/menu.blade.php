@@ -41,6 +41,11 @@
                                              document.getElementById('logout-form').submit();">
                                 Cerrar sesión
                             </a>
+                            @role('admin')
+                                <a class="dropdown-item" href="{{ route('users.index') }}">
+                                    Usuarios
+                                </a>
+                            @endrole
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf

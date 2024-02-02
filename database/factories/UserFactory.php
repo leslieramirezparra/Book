@@ -20,10 +20,11 @@ class UserFactory extends Factory
             'remember_token' => Str::random(30),
         ];
     }
-    // public function unverified()
-    // {
-    //     return $this->state(fn (array $attributes) => [
-    //         'email_verified_at' => null,
-    //     ]);
-    // }
+    public function configure()
+    {
+        return $this->afterCreating(function(User $user)
+        {
+            $user->assignRole('user');
+        });
+    }
 }
