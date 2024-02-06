@@ -33,13 +33,17 @@
                                         @endforeach
                                     </td>
                                     <td scope="row">
-                                        <div class="d-flex">
+                                        <div class="d-flex justify-content-center">
                                             <a href="{{route('users.edit',['user'=>$user->id])}}"
-                                                class="btn btn-warning btn-sm">Editar</a>
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fa-solid fa-pencil"></i>
+                                            </a>
                                             <form action="{{route('users.destroy', ['user'=>$user->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="ms-2 btn btn-danger btn-sm">Eliminar</button>
+                                                <button class="ms-2 btn btn-danger btn-sm">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </td>

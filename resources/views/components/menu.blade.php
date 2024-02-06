@@ -34,18 +34,32 @@
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->full_name }}
                         </a>
-
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            @role('admin')
+                            {{-- user --}}
+                                <a class="dropdown-item" href="{{ route('users.index') }}">
+                                    Usuarios
+                                </a>
+                            @endrole
+                            @role('admin|librarian')
+                            {{-- Book --}}
+                                <a class="dropdown-item" href="{{ route('books.index') }}">
+                                    Libros
+                                </a>
+                            @endrole
+                            {{-- Otra forma de hacerlo --}}
+                            @can('categories.index')
+                            {{-- Category --}}
+                                <a class="dropdown-item" href="{{ route('categories.index') }}">
+                                    Categorias
+                                </a>
+                            @endcan
+
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                                 Cerrar sesión
                             </a>
-                            @role('admin')
-                                <a class="dropdown-item" href="{{ route('users.index') }}">
-                                    Usuarios
-                                </a>
-                            @endrole
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
