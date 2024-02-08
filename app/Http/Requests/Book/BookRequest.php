@@ -14,11 +14,11 @@ class BookRequest extends FormRequest
     public function rules()
     {
         $rules =[
-            'category_id'=>['required','numeric'],
-            'author_id'=>['required','numeric'],
+            'category_id'=>['required','exists:authors,id'],
+            'author_id'=>['required','exists:categories,id'],
             'name'=>['required','string'],
-            'stock'=>['numeric'],
-            'description'=>['string'],
+            'stock'=>['numeric','required'],
+            'description'=>['string','required'],
         ];
 
         if($this->method()=='POST'){

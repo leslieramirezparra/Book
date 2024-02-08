@@ -2,7 +2,7 @@
     <section>
         <div class="card">
             <div class="card-header d-flex justify-content-end">
-                <button class="btn btn-primary">Crear Libro</button>
+                <button class="btn btn-primary" @click="openModal">Crear Libro</button>
             </div>
             <div class="card-body">
                 <div class="table-responsive my-4 mx-2">
@@ -23,28 +23,40 @@
                                 <td>{{book.category.name}}</td>
                                 <td>{{book.stock}}</td>
                                 <td>
-                                    <button class="btn btn-primary">hola</button>
-
+                                    <div class="d-flex justify-content-center" title="Editar">
+                                        <button type="button" class="btn btn-warning btn-sm" @click="editBook(book)">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm ms-2" title="Eliminar" @click="deletBook(book)">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            <div>
+                <book-modal :authors_data="authors_data" :book_data="book" ref="book_modal" />
+            </div>
         </div>
     </section>
 </template>
 
 <script>
-// import from './'
+import BookModal from './BookModal.vue';
 
 export default {
-    name: '',
-    props:['books'],
+    components:{
+        BookModal
+    },
+    props:['books', 'authors_data'],
 
     data(){
         return{
-
+            modal: null,
+            book: {}
         }
     },
     mounted(){
@@ -53,7 +65,28 @@ export default {
     methods: {
         async index(){
             $('#book_table').DataTable()
-        }
+            const modal_id = document.getElementById('book_modal')
+            this.modal = new bootstrap.Modal(modal_id)
+            modal_id.addEventListener('hidden.bs.model', e => {
+                this.$refs.book_modal.reset()
+            })
+        },
+        editBook(book){
+            this.book = book
+            this.openModal()
+        },
+        async deletBook({ id }){
+            try{
+                await axios.delete(`/book/${id}`)
+                // await Swal.fire('succes','Libro Eliminado')
+                window.location.reload()
+            }catch{
+                console.error(error);
+            }
+        },
+        openModal(){
+            this.modal.show()
+        },
     }
 }
 </script>
