@@ -82,3 +82,10 @@
                                 </Field>
                             </div>
                         </section>
+
+                        this.book.category_id = this.category
+                this.book.author_id = this.author
+                if (this.is_create) await axios.post('/books',this.book)
+                else await axios.put(`/books/${this.book.id}`,this.book)
+                await Swal.fire('success','Felicidades')
+                window.location.reload()

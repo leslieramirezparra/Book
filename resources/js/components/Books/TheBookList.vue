@@ -46,6 +46,7 @@
 
 <script>
 import BookModal from './BookModal.vue';
+import { deleteMessage, successMessage } from '@/helpers/Alerts.js'
 
 export default {
     components:{
@@ -67,7 +68,7 @@ export default {
             $('#book_table').DataTable()
             const modal_id = document.getElementById('book_modal')
             this.modal = new bootstrap.Modal(modal_id)
-            modal_id.addEventListener('hidden.bs.model', e => {
+            modal_id.addEventListener('hidden.bs.modal', e => {
                 this.$refs.book_modal.reset()
             })
         },
@@ -76,10 +77,10 @@ export default {
             this.openModal()
         },
         async deletBook({ id }){
+            if (!await deleteMessage()) return
             try{
-                await axios.delete(`/book/${id}`)
-                // await Swal.fire('succes','Libro Eliminado')
-                window.location.reload()
+                await axios.delete(`/books/${id}`)
+                await successMessage({ is_delete: true, reload: true })
             }catch{
                 console.error(error);
             }
